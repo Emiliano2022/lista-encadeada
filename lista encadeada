@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int valor;
+    struct Node *next;
+} Node;
+
+typedef struct {
+    Node *inicio, *fim;
+    int tam;
+} Lista;
+
+void inseririnicio(Lista *lista, int valor) {
+    Node *novo = (Node*) malloc(sizeof(Node)); // criar novo nó
+    novo->valor = valor; // (*novo).valor = valor
+
+    if (lista->inicio == NULL) { // a lista está vazia
+        novo->next = NULL;
+        lista->inicio = novo;
+        lista->fim = novo;
+    } else { // a lista não está vazia
+        novo->next = lista->inicio;
+        lista->inicio = novo;
+    }
+
+    lista->tam++;
+}
+
+void imprimirlista(Lista *lista) {
+    Node *inicio = lista->inicio;
+    printf("Tamanho da lista: %d\n", lista->tam);
+    while (inicio != NULL) {
+        printf("%d ", inicio->valor);
+        inicio = inicio->next;
+    }
+    printf("\n\n");
+}
+
+int main() {
+    int opcao;
+    int valor;
+
+    Lista lista;
+    lista.inicio = NULL;
+    lista.fim = NULL;
+    lista.tam = 0;
+
+    do { // menu de opcoes
+        printf("1 - inserir no inicio\n2 - imprimir\n3 - Sair\n");
+        scanf("%d", &opcao);
+        switch(opcao) { 
+            case 1:
+                printf("digite um valor a ser inserido:");
+                scanf("%d", &valor);
+                inseririnicio(&lista, valor);
+                break;
+            case 2:
+            	printf("\n Listaoriginal:\n");
+                imprimirlista(&lista);
+                break;
+            case 3:
+            	printf("Finalizado...\n");
+            	break;
+            	default:
+            		printf("Opcao invalida\n");
+        }
+    } while (opcao != 3);
+
+    return 0;
+}
+
